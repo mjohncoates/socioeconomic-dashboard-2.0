@@ -13,7 +13,7 @@ import plotly.express as px
 
 import dash
 import dash_html_components as html
-import dash_bootstrap_components as dbc  # Make sure to import dash_bootstrap_components as dbc
+import dash_bootstrap_components as dbc
 from dash import html, dcc, Dash, Input, Output
 from dash import dcc
 import plotly.express as px
@@ -35,8 +35,8 @@ restructured_df = restructured_df.rename(columns={'Country Name': 'Entity', 'Cou
 
 #year as integer
 restructured_df['Year'] = restructured_df['Year'].astype(int)
-# Display the transformed dataframe
-print(restructured_df)
+
+
 df = pd.read_csv("life-expectancy-vs-gdp-per-capita.csv")
 
 merged_df = pd.merge(df, restructured_df[['Entity', 'Year', 'Mortality rate, under-5 (per 1,000 live births)']], 
@@ -77,8 +77,8 @@ def update_map(selected_column):
         legend=dict(font=dict(size=10)),
         height=600, width=1000,  # Adjust plot height
         sliders=dict(
-            x=0.1,  # Adjust x position of the slider (0 is left, 1 is right)
-            y=0.5,  # Adjust y position of the slider (0 is bottom, 1 is top)
+            x=0.1,  # Adjust x position of the slider 
+            y=0.5,  # Adjust y position of the slider 
         )
     )
 
@@ -87,10 +87,6 @@ def update_map(selected_column):
 # ## Figure 2 - Life expectancy vs GDP
 
 df1 = merged_df.copy()
-# Filter out rows where the year is below 1950
-
-df1.head()
-
 
 df1 = merged_df.copy()
 # List of specified regions
@@ -108,7 +104,7 @@ df1.rename(columns={'Period life expectancy at birth - Sex: all - Age: 0': 'Life
 
 gdpdata = pd.read_csv("gdp_data_csv.csv")
 
-gdpdata.head()
+
 
 # Melt the DataFrame to have the years as a separate column
 melted_gdpdata = pd.melt(gdpdata, id_vars=["Country"], var_name="Year", value_name="GDP_per_capita")
@@ -124,8 +120,7 @@ melted_gdpdata = melted_gdpdata.sort_values(by=['Country', 'Year']).reset_index(
 # Filter rows where "Country" column is not null
 melted_gdpdata = melted_gdpdata[melted_gdpdata['Country'].notnull()]
 
-# Filter out rows in sorted_gdpdata where 'Country' is not in df1['Country']
-#melted_gdpdata = melted_gdpdata[melted_gdpdata['Country'].isin(df1['Country'])]
+
 
 # Reset index
 melted_gdpdata.reset_index(drop=True, inplace=True)
@@ -162,13 +157,12 @@ gdpcontinents = gdpcontinents[gdpcontinents['Year'] <= 2018]
 gdpcontinents.rename(columns={'GDP_per_capita': 'GDP per capita'}, inplace=True)
 gdpcontinents['Country'] = gdpcontinents['Country'].replace({'Africa (Region)': 'Africa'})
 
-gdpcontinents
 
 # Find unique values in the 'Country' column
 unique_countries = gdpcontinents['Country'].unique()
-print(unique_countries)
 
-# %%
+
+
 # Merge the two DataFrames
 df1 = pd.merge(df1, gdpcontinents, on=['Country', 'Year'], how='left')
 
@@ -217,8 +211,6 @@ fig_scatter.update_layout(
                            height=600, width=800)  # Adjust height and width of the plot
 
 
-#fig_scatter.update_traces(line=dict(color="black"))
-#fig_scatter.show()
 
 # ## Figure 3 - Bar chart showing difference in life expectancy for low income vs high income
 
@@ -295,7 +287,6 @@ fig_percent2.update_layout(
 height = 380)
 
 
-#fig_percent2.show()
 
 
 fig_percent3 = go.Figure(go.Indicator(
@@ -317,7 +308,6 @@ fig_percent3.update_layout(
 height=380)
 
 
-#fig_percent3.show()
 
 
 # ## Figure 4 - Pictoral chart to show difference in child morality
@@ -397,7 +387,7 @@ constant = 21.8567
 
 
 # Define the GDP per capita for which you want to predict life expectancy
-gdp_per_capita_low = 2000  # Example GDP per capita value
+gdp_per_capita_low = 2000 
 
 # Calculate the predicted life expectancy
 log_gdp_per_capita = math.log10(gdp_per_capita_low)
@@ -405,9 +395,7 @@ predicted_life_expectancy_low = coefficient * log_gdp_per_capita + constant
 
 print("Predicted Life for 1000GDP Expectancy:", predicted_life_expectancy_low)
 
-# Define the GDP per capita for which you want to predict life expectancy
-gdp_per_capita_lowmedium = 25000  # Example GDP per capita value
-
+gdp_per_capita_lowmedium = 25000  
 # Calculate the predicted life expectancy
 log_gdp_per_capita = math.log10(gdp_per_capita_lowmedium)
 predicted_life_expectancy_lowmedium = coefficient * log_gdp_per_capita + constant
@@ -423,8 +411,7 @@ print("Percentage increase of Life expectancy from increasing gdp from",gdp_per_
 
 
 
-# Define the GDP per capita for which you want to predict life expectancy
-gdp_per_capita_medium = 48000  # Example GDP per capita value
+gdp_per_capita_medium = 48000  
 
 # Calculate the predicted life expectancy
 log_gdp_per_capita = math.log10(gdp_per_capita_medium)
@@ -445,7 +432,7 @@ import pandas as pd
 
 # Create a list of lists containing the data
 data = [
-    ['Income Category', 'Life expectancy increase'],  # Add a comma here
+    ['Income Category', 'Life expectancy increase'],  
     ['Low-income countries', 13.85],
     ['Middle-income countries', 3.58]
 ]
@@ -466,8 +453,7 @@ fig_lifeexpincrease_bar = px.bar(df5, x="Income Category", y="Life expectancy in
                           title="Increase in life-expectancy when GDP per<br>capita is increased by $13000",
                           labels={"Life expectancy increase": "Estimated life expectancy increase (Years)", "Income Category": ""})
 
-# Update bar colors
-#fig_lifeexpincrease_bar.update_traces(marker=dict(color=['green', 'red']))
+
 
 # Update title size
 fig_lifeexpincrease_bar.update_layout(title_font_size=22, height=550)
@@ -481,9 +467,6 @@ fig_lifeexpincrease_bar.update_layout(showlegend=False)
 
 # Update label font size on bars
 fig_lifeexpincrease_bar.update_traces(textfont_size=24)  # Adjust size as needed
-
-# Show the plot
-#fig_lifeexpincrease_bar.show()
 
 
 # ## Integrating into dashboard
@@ -514,30 +497,7 @@ card_scatter_lifegdp = dbc.Card(
 )
 
 
-###gauge chart cards
-card_gauge_1 = dbc.Card(
-    [
-        #dbc.CardHeader('Citizens in Low-Income Countries Die 18 Years Earlier Than in High-Income Countries.',style={"background-color": "White", "color": "Black", "fontSize":"20px"}),
-        dbc.CardBody(
-            [
-                html.Div(id='fig_gauge_1', className='card-value text-center'),
-                dcc.Graph(figure=fig_percent3)
-            ]
-        )
-    ], style={'border':'groove'}, outline=True
-)
-
-card_gauge_2 = dbc.Card(
-    [
-        #dbc.CardHeader('Citizens in Low-Income Countries Die 18 Years Earlier Than in High-Income Countries.',style={"background-color": "White", "color": "Black", "fontSize":"20px"}),
-        dbc.CardBody(
-            [
-                html.Div(id='fig_gauge_2', className='card-value text-center'),
-                dcc.Graph(figure=fig_percent2)
-            ]
-        )
-    ], style={'border':'groove'}, outline=True
-)
+#second card
 card_gauge_3 = dbc.Card(
     [
         dbc.CardHeader('People in Low-Income Countries Die 18 Years Earlier Than those in High-Income Countries.',
@@ -621,7 +581,6 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 # Define the layout of the app
 app.layout = html.Div([
     html.Div([
-        #html.Div(html.Img(src=exe_logo, height="100px"), style={'width': '250px','background-color':'black'}),  # Insert the logo here and set a fixed width
         html.H1("Global Health Inequality Analytical Dashboard", style={'flex': '1',
                                                                                'padding': '10px 0 10px 10px',
                                                                                'text-align': 'left',
