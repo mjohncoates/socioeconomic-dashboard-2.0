@@ -24,3 +24,4 @@ https://www.imf.org/external/datamapper/NGDPDPC@WEO/OEMDC/ADVEC/WEOWORLD <br>
 1. More up to date data
 2. Add ability to change data for scatter plot, so can look at child mortality vs gdp overtime as well.
 3. More variables e.g poverty classification, access to tap water, rate of malnutrition, access to healthcare etc.
+4. Fix scaling/zoom issue.
